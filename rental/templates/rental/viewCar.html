@@ -1,0 +1,53 @@
+{% extends './base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="d-flex pt-5 justify-content-center w-100">
+    <div class="w-50">
+        {%if message %}
+        {% if state == 0 %}
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>{{message}}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
+        {% else %}
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>{{message}}</strong>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        {% endif %}
+        {% endif %}
+    </div>
+
+</div>
+<div class="d-flex align-items-center justify-content-center pt-5">
+    <div>
+        <p style="font-size:130%;font-family:verdana"> {{ car.carName }} <br /></p>
+        <ul>
+            <li style="font-family:verdana;">Doors: {{ car.numDoors }}</li>
+            <li style="font-family:verdana;">Seats: {{ car.numSeats }}</li>
+            <li style="font-family:verdana;">Transmission: {{ car.gear }}</li>
+            <li style="font-family:verdana;">Price/Day: {{ car.priceDay }} AED</li>
+            <li style="font-family:verdana;">Price/Week: {{ car.priceWeek }} AED</li>
+        </ul>
+        <br /><br />
+        <form method="POST" class="d-flex flex-wrap flex-column" action="{%  url 'rental:book-car' %}">
+            {% csrf_token %}
+            <input type='hidden' id='car-id' value={{car.id}} name="carId" />
+            <label for="start">Start date:</label>
+            <input type="date" id="start" name="start-date" value="2021-01-01" min="2021-01-01" max="2030-12-31">
+            <label for="end">End date:</label>
+            <input type="date" id="end" name="end-date" value="2021-01-01" min="2021-01-01" max="2030-12-31">
+            <button class="btn btn-primary mt-4" type="submit" value="Book Car" name="{{ c.id }}" id="id">Book
+                Car</button>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
